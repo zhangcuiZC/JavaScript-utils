@@ -43,5 +43,53 @@ var EventUtil={
         }else{
             event.cancelBubble=true;
         }
+    },
+    //获得mouseover和mouseout的相关元素
+    getRelatedTarget:function(event){
+    	if(event.relatedTarget){
+    		return event.relatedTarget;
+    	}else if(event.toElement){
+    		return event.toElement;
+    	}else if(event.fromElement){
+    		return event.fromElement;
+    	}else{
+    		return null;
+    	}
+    },
+    //获得鼠标按钮信息，0表示主鼠标按钮，1表示滚轮按钮，2表示次鼠标按钮
+    getButton:function(event){
+    	if(document.implementation.hasFeature("MouseEvents","2.0")){
+    		return event.button;
+    	}else{
+    		switch(event.button){
+    			case 0:
+    			case 1:
+    			case 3:
+    			case 5:
+    			case 7:
+    				return 0;
+    			case 2:
+    			case 6:
+    				return 2;
+    			case 4:
+    				return 1;
+    		}
+    	}
+    },
+    //在鼠标滚动时显示detail属性的值,向后滚是-120的倍数，向前是120的倍数(该方法需要使用浏览器检测)
+    getWheelDelta:function(event){
+    	if(event.wheelDelta){
+    		return (client.engine.opera&&client.engine.opera<9.5?-event.wheelDelta:event.wheelDelta);
+    	}else{
+    		return -event.detail*40;
+    	}
+    },
+    //keypress事件时的charCode值，表示按下的那个键所代表字符的ASCII编码
+    getCharCode:function(event){
+    	if(typeof event.charCode=="number"){
+    		return event.charCode;
+    	}else{
+    		return event.keyCode;
+    	}
     }
 }
