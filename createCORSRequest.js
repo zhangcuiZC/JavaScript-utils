@@ -5,8 +5,12 @@ function createCORSRequest(method,url){
 	}else if (typeof XDomainRequest!="undefined") {
 		xhr=new XDomainRequest();
 		xhr.open(method,url);
+	}else{
+		xhr=null;
 	}
+	return xhr;
 }
+
 /*example
 
 var request=createCORSRequest("get","http://...");
